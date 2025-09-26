@@ -1,0 +1,39 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+# User-specific files
+*.suo
+*.user
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+appsettings.*.json
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+package/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+# Exceptions
+!*/Config/Release/
+!*/Config/Debug/
+
+# Visual Studio 2015 cache/options directory
+.vs/
+**/.vs/
+
+# Test results:
+**/TestResults/*
+/database/ToursApi.DatabaseConfiguration/ToursApi.DatabaseConfiguration.dbmdl
+/database/ToursApi.DatabaseConfiguration/ToursApi.DatabaseConfiguration.jfm
