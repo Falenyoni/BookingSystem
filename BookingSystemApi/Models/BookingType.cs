@@ -1,6 +1,10 @@
 ﻿namespace BookingSystemApi.Models
 {
-    public class BookingType
+    public enum BookingType
     {
+        Apartment,
+        Vehicle,
+        Show,
+        Other
     }
 }
