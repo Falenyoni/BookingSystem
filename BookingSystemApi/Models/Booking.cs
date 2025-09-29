@@ -2,9 +2,9 @@
 {
     public class Booking
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public Customer Customer { get; set; }
-        public string ItemName { get; set; }
+        public int ActivityId { get; set; }
         public string Description { get; set; }
         public BookingType BookingType { get; set; }
         public DateTime StartDate { get; set; }

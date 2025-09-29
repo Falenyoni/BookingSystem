@@ -6,14 +6,14 @@ namespace BookingSystemApi.Services
     {
         Task<Booking> AddBookingAsync(CreateBookingRequest request);
 
-        Task<Booking> GetBookingAsync(int bookingId);
+        Task<Booking> GetBookingAsync(Guid bookingId);
 
         Task<IReadOnlyList<Booking>> GetBookingsAsync();
 
-        Task<Booking> GetBookingByCustomerAsync(int cutomerId);
+        Task<IReadOnlyList<Booking>> GetBookingByCustomerAsync(Guid cutomerId);
 
-        Task<Booking> UpdateBookingAsync(int bookingId, UpdateBookingRequest request);
+        Task<Booking> UpdateBookingAsync(Guid bookingId, UpdateBookingRequest request);
 
-        Task<bool> DeleteBookingAsync(int bookingId);
+        Task<bool> DeleteBookingAsync(Guid bookingId);
     }
 }
