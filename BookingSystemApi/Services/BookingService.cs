@@ -1,5 +1,6 @@
 ﻿using BookingSystemApi.Models;
 using System.Collections.Concurrent;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookingSystemApi.Services;
 
@@ -79,9 +80,53 @@ public class BookingService : IBookingService
         return _bookings.Values.ToList();
     }
 
-    public Task<Booking> UpdateBookingAsync(Guid bookingId, UpdateBookingRequest request)
+    public async Task<Customer> GetCustomerAsync(Guid customerId)
     {
-        throw new NotImplementedException();
+        if (_customers.TryGetValue(customerId, out var customer))
+        {
+            return customer;
+        }
+        throw new Exception($"Customer with ID {customerId} not found");
+    }
+
+    public async Task<IReadOnlyList<Customer>> GetCustomersAsync()
+    {
+        return _customers.Values.ToList();
+    }
+
+    public async Task<Booking> UpdateBookingAsync(Guid bookingId, UpdateBookingRequest request)
+    {
+        if (!_bookings.TryGetValue(bookingId, out var existing))
+        {
+            throw new Exception($"Booking with ID {bookingId} not found");
+        }
+
+        if (request.ActivityId is not null)
+        {
+            var newActivity = await _activityService.GetActivityAsync(request.ActivityId.Value);
+            if (newActivity is null)
+            {
+                throw new ValidationException("Activity  is not currently available");
+            }
+            existing.Activity = newActivity;
+        }
+
+        // Update dates if specified
+        var startDate = request.StartDate ?? existing.StartDate;
+        var endDate = request.EndDate ?? existing.EndDate;
+        existing.ActivityId = request.ActivityId ?? existing.ActivityId;
+
+        if (startDate <= DateTime.UtcNow)
+            throw new ValidationException("Start date must be in the future");
+
+        if (endDate <= startDate)
+            throw new ValidationException("End date must be after start date");
+
+        existing.StartDate = startDate;
+        existing.EndDate = endDate;
+        existing.ModifiedAt = DateTime.UtcNow;
+
+        return existing;
     }
 
     private async Task<Customer> GetOrCreateCustomerAsync(string name, string email, string phone)

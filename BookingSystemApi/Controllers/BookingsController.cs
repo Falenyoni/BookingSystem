@@ -43,5 +43,26 @@ namespace BookingSystemApi.Controllers
             var booking = await _bookingService.UpdateBookingAsync(id, request);
             return Ok(booking);
         }
+
+        [HttpGet("bookings")]
+        public async Task<ActionResult<IReadOnlyList<Booking>>> GetBookings()
+        {
+            var bookings = await _bookingService.GetBookingsAsync();
+            return Ok(bookings);
+        }
+
+        [HttpGet("customers/{id:guid}")]
+        public async Task<ActionResult<Customer>> GetCustomer(Guid id)
+        {
+            var customer = await _bookingService.GetCustomerAsync(id);
+            return customer;
+        }
+
+        [HttpGet("customers")]
+        public async Task<ActionResult<Customer>> GetCustomers()
+        {
+            var customer = await _bookingService.GetCustomersAsync();
+            return Ok(customer);
+        }
     }
 }

@@ -15,5 +15,9 @@ namespace BookingSystemApi.Services
         Task<Booking> UpdateBookingAsync(Guid bookingId, UpdateBookingRequest request);
 
         Task<bool> DeleteBookingAsync(Guid bookingId);
+
+        Task<Customer> GetCustomerAsync(Guid customerId);
+
+        Task<IReadOnlyList<Customer>> GetCustomersAsync();
     }
 }
