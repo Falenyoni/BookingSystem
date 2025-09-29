@@ -5,6 +5,7 @@
         public Guid Id { get; set; }
         public Customer Customer { get; set; }
         public int ActivityId { get; set; }
+        public Activity Activity { get; set; }
         public string Description { get; set; }
         public BookingType BookingType { get; set; }
         public DateTime StartDate { get; set; }

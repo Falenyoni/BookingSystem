@@ -7,17 +7,21 @@ public class BookingService : IBookingService
 {
     private readonly ConcurrentDictionary<Guid, Booking> _bookings;
     private readonly ConcurrentDictionary<Guid, Customer> _customers;
+    private readonly IActivityService _activityService;
 
-    public BookingService()
+    public BookingService(IActivityService activityService)
     {
         _bookings = new ConcurrentDictionary<Guid, Booking>();
         _customers = new ConcurrentDictionary<Guid, Customer>();
+        _activityService = activityService;
     }
 
     public async Task<Booking> AddBookingAsync(CreateBookingRequest request)
     {
         // Validation
         ValidateBookingRequest(request);
+
+        var activity = await _activityService.GetActivityAsync(request.ActivityId);
 
         // Create Customer / Get custommer
         var customer = await GetOrCreateCustomerAsync(request.CustomerName, request.CustomerEmail, request.CustomerPhone);
@@ -48,6 +52,18 @@ public class BookingService : IBookingService
     {
         if (_bookings.TryGetValue(bookingId, out var booking))
         {
+            // Load activity if not already loaded
+            if (booking.Activity == null && booking.ActivityId > 0)
+            {
+                try
+                {
+                    booking.Activity = await _activityService.GetActivityAsync(booking.ActivityId);
+                }
+                catch (KeyNotFoundException)
+                {
+                    // Activity might have been deleted, handle gracefully
+                }
+            }
             return booking;
         }
         throw new Exception($"Booking with ID {bookingId} not found");

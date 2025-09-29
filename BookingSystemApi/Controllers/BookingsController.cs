@@ -24,7 +24,7 @@ namespace BookingSystemApi.Controllers
             return Ok(booking);
         }
 
-        [HttpGet]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<Booking>> GetBooking(Guid id)
         {
             var booking = await _bookingService.GetBookingAsync(id);

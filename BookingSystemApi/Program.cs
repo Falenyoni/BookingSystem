@@ -10,8 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Register application service
-builder.Services.AddScoped<IActivityService, ActivityService>();
-builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddSingleton<IActivityService, ActivityService>();
+builder.Services.AddSingleton<IBookingService, BookingService>();
 
 var app = builder.Build();
 
