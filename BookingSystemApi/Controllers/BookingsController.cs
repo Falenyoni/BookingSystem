@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookingSystemApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/")]
     public class BookingsController : ControllerBase
     {
         private readonly IBookingService _bookingService;
@@ -17,27 +17,27 @@ namespace BookingSystemApi.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+        [HttpPost("bookings")]
         public async Task<ActionResult<Booking>> CreateBooking([FromBody] CreateBookingRequest request)
         {
             var booking = await _bookingService.AddBookingAsync(request);
             return Ok(booking);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("bookings/{id:guid}")]
         public async Task<ActionResult<Booking>> GetBooking(Guid id)
         {
             var booking = await _bookingService.GetBookingAsync(id);
             return booking;
         }
 
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("bookings/{id:guid}/delete")]
         public async Task<ActionResult<bool>> DeleteBooking(Guid id)
         {
             return await _bookingService.DeleteBookingAsync(id);
         }
 
-        [HttpPut]
+        [HttpPut("bookings/{id:guid}/update")]
         public async Task<ActionResult<Booking>> UpdateBooking(Guid id, [FromBody] UpdateBookingRequest request)
         {
             var booking = await _bookingService.UpdateBookingAsync(id, request);

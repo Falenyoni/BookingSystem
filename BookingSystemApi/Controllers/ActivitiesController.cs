@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookingSystemApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/")]
     public class ActivitiesController : ControllerBase
     {
         private readonly IActivityService _activityService;
@@ -17,14 +17,14 @@ namespace BookingSystemApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("activities/{id}")]
         public async Task<ActionResult<Activity>> GetActivity(int id)
         {
             var activity = await _activityService.GetActivityAsync(id);
             return activity;
         }
 
-        [HttpGet]
+        [HttpGet("activities")]
         public async Task<ActionResult<IReadOnlyList<Activity>>> GetActivities()
         {
             var activities = await _activityService.GetActivitiesAsync();
