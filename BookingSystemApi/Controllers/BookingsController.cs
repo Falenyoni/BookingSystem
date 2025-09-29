@@ -30,5 +30,18 @@ namespace BookingSystemApi.Controllers
             var booking = await _bookingService.GetBookingAsync(id);
             return booking;
         }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult<bool>> DeleteBooking(Guid id)
+        {
+            return await _bookingService.DeleteBookingAsync(id);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Booking>> UpdateBooking(Guid id, [FromBody] UpdateBookingRequest request)
+        {
+            var booking = await _bookingService.UpdateBookingAsync(id, request);
+            return Ok(booking);
+        }
     }
 }
